@@ -1,0 +1,86 @@
+ 
+bitmaps
+  instruction1
+  instruction2
+  correct
+  mistake
+  fixpoint
+  yymal
+  ygmal
+  ybmal
+  yrmal
+  rymal
+  rgmal
+  rbmal
+  rrmal
+  gymal
+  ggmal
+  gbmal
+  grmal
+  bymal
+  bgmal
+  bbmal
+  brmal
+
+fonts
+  arial 20
+
+# table: write condition,stimulus,response
+
+table stroopmal
+  "yellow yellow 1" yymal 4
+  "yellow green  0" ygmal 2
+  "yellow blue   0" ybmal 3
+  "yellow red    0" yrmal 1
+  "red yellow    0" rymal 4
+  "red green     0" rgmal 2
+  "red blue      0" rbmal  3
+  "red red       1" rrmal 1
+  "green yellow  0" gymal 4
+  "green green   1" ggmal 2
+  "green blue    0" gbmal 3
+  "green red     0" grmal 1
+  "blue yellow   0" bymal 4
+  "blue green    0" bgmal 2
+  "blue blue     1" bbmal 3
+  "blue red      0" brmal 1
+
+task stroopmal
+  table stroopmal
+  keys r g b y
+  delay 500
+  show bitmap fixpoint # stimulus 1
+  delay 200
+  clear 1 # remove fixpoint
+  delay 100
+  show bitmap @2 # stimulus 2
+  readkey @3 2000
+  clear 2 # remove stimulus 2
+  if STATUS == CORRECT
+    show bitmap correct # stimulus 3 (feedback)
+  fi
+  if STATUS != CORRECT  # stimulus 3 (feedback)
+    show bitmap mistake
+  fi
+  delay 500
+  clear 3 # remove feedback stimulus
+  save BLOCKNAME @1 TABLEROW KEY STATUS RT
+
+message instruction1
+
+message instruction2
+
+block training
+  tasklist
+    stroopmal 30  # run the stroop task 20 trials.
+  end
+  feedback
+    text -100 0  "Your speed in correct trials"
+    set &StroopCon mean c8 ; select c4 == 1 && c7 == 1
+    set &StroopInc mean c8 ; select c4 == 0 && c7 == 1
+    set &StroopEffect expression &StroopInc - &StroopCon
+    text -100 50  &StroopCon ; prefix "congruent:   " ; postfix " ms" ; select c4 == 1 && c7 == 1
+    text -100 100 &StroopInc ; prefix "incongruent: " ; postfix " ms" ; select c4 == 0 && c7 == 1
+    text -100 150 &StroopEffect ; prefix "Your Stroop effect is incongruent minus congruent: " ; postfix " ms"
+    text -100 200 "Press space key to end"
+  end

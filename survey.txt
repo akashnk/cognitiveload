@@ -1,0 +1,71 @@
+# check the large survey-library for ready-to-run examples you can
+# cut and paste here
+
+
+l: name
+t: textline
+q: What is your name?
+- {require} Enter your name
+
+l: age
+t: range
+q: How old are you?
+o: require
+- {min=18,max=100} Enter your age
+
+l: mothertongue
+t: radio
+q: What is your mother tongue?
+- Malayalam
+- Odia
+- English
+
+
+l: jump1
+t: jump
+- if $mothertongue == 2 then goto stroopodia
+- if $mothertongue == 3 then goto stroopeng
+
+l: stroopmalayalam
+t: experiment
+-  malstroop
+
+l: jump2
+t: jump
+- goto passageeng
+
+l: stroopodia
+t: experiment
+- odiastroop
+
+l: jump3
+t: jump
+- goto passageeng
+
+l: stroopeng
+t: experiment
+- stroop1
+
+l: passageeng
+i: passage1.png
+t: info
+q: Concentrate! Read the above passage carefully. You have to answer questions on it!
+
+l: q1
+t: radio
+q:  Company training in Japan is :
+- Not important
+- For factory workers only
+- For professional workers only
+- For all staff
+
+l: q2
+t: radio
+q: The employment policy of large companies in Japan is :
+- Employment without job security
+- Fixed duration based on contract
+- Life-time
+- No specific policy
+
+
+
